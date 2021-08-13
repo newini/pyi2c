@@ -41,11 +41,11 @@ class I2C:
         return list(read_msg)
 
     # Write data and read bytes of data soon
-    def writeread(self, addr, data, byte_size):
+    def writeread(self, addr, data, byte_size=1):
         if not type(data) == list:
             data = [ data ]
         write_msg = i2c_msg.write(addr, data)
-        read_msg = i2c_msg.read(addr, byte_size)
+        read_msg = i2c_msg.read(addr, byte_size=1)
         self._bus.i2c_rdwr(write_msg, read_msg)
         return list(read_msg)
 

@@ -11,8 +11,9 @@ pip3 install pyi2c
 
 
 
-## 2. How to use I2C? (Example)
-### 2.1 Write
+## 2. API and example
+### 2.1 I2C
+#### 2.1.1 declare
 ```
 from pyi2c import I2C
 
@@ -20,81 +21,80 @@ from pyi2c import I2C
 BUS_N = 0 # 0 or 1 or 2. Change this to yours
 i2c = I2C(BUS_N)
 
-# Write
 ADDR = 0x38 # Change this to yours
-WRITE1 = 0x00 # Change this to yours
-i2c.write(ADDR, WRITE)
+```
+
+#### 2.1.2 `write(ADDR, data)`
+- `data` can be a byte or list of bytes.
+```
+WRITE0 = 0x00 # Change this to yours
+i2c.write(ADDR, WRITE0)
 
 # or write multi bytes, up to 64 bytes
-WRITE0 = 0x01 # Change this to yours
+WRITE1 = 0x01 # Change this to yours
 i2c.write(ADDR, [WRITE0, WRITE1])
 ```
 
-### 2.2 Read
+#### 2.1.2 `read(ADDR, byte_size)`
+- `byte_size` can be empty (default is 1)
 ```
-from pyi2c import I2C
-
-# Create i2c
-BUS_N = 0 # 0 or 1 or 2. Change this to yours
-i2c = I2C(BUS_N)
-
-# Read
 read_data = i2c.read(ADDR)
 
 # or set length of reading bytes
-bytes_n = 2
-read_data = i2c.read(ADDR, byte_n)
-
+byte_size = 2
+read_data = i2c.read(ADDR, byte_size)
+print( len(read_data) )
+# 2
 ```
 
-### 2.3 Write and read
+#### 2.1.3 `writeread(ADDR, data, byte_size)`
+- `data` can be a byte or list of bytes.
+- `byte_size` can be empty (default is 1)
 ```
-from pyi2c import I2C
-
-# Create i2c
-BUS_N = 0 # 0 or 1 or 2. Change this to yours
-i2c = I2C(BUS_N)
-
-# First write and read rapidly
+# First write and read rapidly one byte
 read_data = i2c.writeread(ADDR, WRITE0)
 
 # These also work
 read_data = i2c.writeread(ADDR, [WRITE0, WRITE1])
-read_data = i2c.writeread(ADDR, [WRITE0, WRITE1], bytes_n)
+read_data = i2c.writeread(ADDR, [WRITE0, WRITE1], byte_size)
 ```
 
 
 
-## 3. How to use useful functions? (Example)
-### 3.1 `getBit`
+### 2.2 `getBit(byte, bin_n, bin_m=-1)`
 ```
 from pyi2c import getBit
 
-byte = 0x5a
+byte = 0x5a # Any byte data
 print( bin(byte) )
-# Will return '0b1011010'
-
-print( getBit(byte, 0) )
-# Will return 0 from #0 bit
-
-print( getBit(byte, 1) )
-# Will return 1 from #1 bit
-
-if getBit(byte, 4) == 1:
-    print('hoge')
-# Will return 'hoge'
+# '0b1011010'
 ```
 
+- Get bit #n of byte
+```
+print( getBit(byte, 0) )
+# 0
 
+print( getBit(byte, 1) )
+# 1
+```
 
-## 4. API
-### 4.1 `I2C`
-- `write`
-- `read`
-- `writeread`
+- Get multi bits from #n to #m of byte
+```
+print( getBit(byte, 4, 3) )
+# 3 = 0b10
+print( getBit(byte, 3, 4) )
+# 3 = 0b10, the same as previous
 
-### 4.2 Useful functions
-- `getBit(byte, bit_n)`
+```
+
+- Recommen usage
+```
+if getBit(byte, 4) == 0b1:
+    print('hoge')
+# 'hoge'
+```
+
 
 
 ## For developers
