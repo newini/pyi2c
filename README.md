@@ -4,7 +4,7 @@ It is a simple I2C interface based on smbus2.
 
 
 ## 1. Installation
-Via pip
+Via [pip](https://pypi.org/project/pyi2c/)
 ```
 pip3 install pyi2c
 ```
