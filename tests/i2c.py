@@ -35,4 +35,8 @@ while True:
 
     print('{0:.2f} %, {1:.2f} C'.format(humidity, temperature))
 
+    if temperature > 85:
+        # Reset
+        i2c.write(AHT10_ADDR, 0xba)
+
     time.sleep(.9)
