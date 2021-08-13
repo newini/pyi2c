@@ -51,12 +51,9 @@ class I2C:
 
 
 # =================================================
-# Get bit in bytes at LSB defaultly
-def getBit(byte, bit_n, MSB=False):
-    if MSB:
-        bit = 0 if byte & 2**(7-bit_n) == 0 else 1
-    else:
-        bit = 0 if byte & 2**bit_n == 0 else 1
+# Get bit in #n from the bytes data
+def getBit(byte, bit_n):
+    bit = 0 if byte & 2**bit_n == 0 else 1
     return bit
 
 
