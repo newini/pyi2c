@@ -38,7 +38,9 @@ class I2C:
     def read(self, addr, byte_size=1):
         read_msg = i2c_msg.read(addr, byte_size)
         self._bus.i2c_rdwr(read_msg)
-        return list(read_msg)
+        # List of i2c_msg should be converted to list of bytes
+        read_data = list(read_msg)
+        return read_data[0] if len(read_data) == 1 else read_data
 
     # Write data and read bytes of data soon
     def writeread(self, addr, data, byte_size=1):
@@ -47,7 +49,9 @@ class I2C:
         write_msg = i2c_msg.write(addr, data)
         read_msg = i2c_msg.read(addr, byte_size=1)
         self._bus.i2c_rdwr(write_msg, read_msg)
-        return list(read_msg)
+        # List of i2c_msg should be converted to list of bytes
+        read_data = list(read_msg)
+        return read_data[0] if len(read_data) == 1 else read_data
 
 
 # =================================================
