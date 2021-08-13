@@ -28,22 +28,22 @@ class I2C:
         self._bus = SMBus(bus_n)
 
     # Write data
-    def write(addr, data):
+    def write(self, addr, data):
         if not type(data) == list:
-            data = list(data)
+            data = [ data ]
         write_msg = i2c_msg.write(addr, data)
         self._bus.i2c_rdwr(write_msg)
 
     # Read bytes of data
-    def read(addr, byte_size=1):
+    def read(self, addr, byte_size=1):
         read_msg = i2c_msg.read(addr, byte_size)
         self._bus.i2c_rdwr(read_msg)
         return list(read_msg)
 
     # Write data and read bytes of data soon
-    def writeread(addr, data, byte_size):
+    def writeread(self, addr, data, byte_size):
         if not type(data) == list:
-            data = list(data)
+            data = [ data ]
         write_msg = i2c_msg.write(addr, data)
         read_msg = i2c_msg.read(addr, byte_size)
         self._bus.i2c_rdwr(write_msg, read_msg)
