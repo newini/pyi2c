@@ -51,9 +51,14 @@ class I2C:
 
 
 # =================================================
-# Get bit in #n from the bytes data
-def getBit(byte, bit_n):
-    bit = 0 if byte & 2**bit_n == 0 else 1
+# Get bits from #n to #m of the bytes data
+def getBit(byte, bit_n, bit_m=-1):
+    # bit_m can be empty
+    if bit_m < 0:
+        bit_m = bit_n
+    bit = 0
+    for i in range( abs(bit_n - bit_m) + 1 ):
+        bit += 0 if byte & 2**(min(bit_n, bit_m)+i) == 0 else 1 * 2**i
     return bit
 
 
