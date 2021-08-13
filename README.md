@@ -35,7 +35,7 @@ WRITE1 = 0x01 # Change this to yours
 i2c.write(ADDR, [WRITE0, WRITE1])
 ```
 
-#### 2.1.2 `read(ADDR, byte_size)`
+#### 2.1.2 `read(ADDR, byte_size=1)`
 - `byte_size` can be empty (default is 1)
 ```
 read_data = i2c.read(ADDR)
@@ -47,7 +47,7 @@ print( len(read_data) )
 # 2
 ```
 
-#### 2.1.3 `writeread(ADDR, data, byte_size)`
+#### 2.1.3 `writeread(ADDR, data, byte_size=1)`
 - `data` can be a byte or list of bytes.
 - `byte_size` can be empty (default is 1)
 ```
@@ -62,6 +62,9 @@ read_data = i2c.writeread(ADDR, [WRITE0, WRITE1], byte_size)
 
 
 ### 2.2 `getBit(byte, bin_n, bin_m=-1)`
+- `bin_n` should be `>= 0`
+- `bin_m` can be empty (default is -1 but will overwrote with `bin_n`)
+- `bin_n` or `bin_m` can be larger than byte's size
 ```
 from pyi2c import getBit
 
@@ -88,7 +91,7 @@ print( getBit(byte, 3, 4) )
 
 ```
 
-- Recommen usage
+- Recommend usage
 ```
 if getBit(byte, 4) == 0b1:
     print('hoge')
