@@ -19,7 +19,7 @@ time.sleep(1)
 # loop
 while True:
     # Trigger
-    i2c.write(AHT10_ADDR, 0xac)
+    i2c.write(AHT10_ADDR, [0xac, 0x33, 0x00])
     time.sleep(.1)
 
     # Get 6 bytes of data
