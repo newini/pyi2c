@@ -1,4 +1,4 @@
-![pyi2c logo](/docs/assets/images/pyi2c.png)
+![pyi2c logo](https://raw.githubusercontent.com/newini/pyi2c/master/docs/assets/images/pyi2c.png)
 
 # A useful i2c Python3 package for Pi
 It is a simple I2C interface based on smbus2.
