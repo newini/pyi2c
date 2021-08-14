@@ -25,9 +25,10 @@ ADDR = 0x38 # Change this to yours
 ```
 
 #### 2.1.2 `scan()`
+**Return** list of integer (addres in byte)
 Scan all I2C devices on the same BUS.
 ```
-i2c.scan()
+print( i2c.scan() )
 ```
 
 ```
@@ -41,6 +42,7 @@ i2c.scan()
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 80: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+[56, 90]
 ```
 
 #### 2.1.3 `write(ADDR, data)`

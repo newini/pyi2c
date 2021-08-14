@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pyi2c",
-    version="0.2.1",
+    version="0.2.2",
     author="Eunchong Kim",
     author_email="chariskimec@gmail.com",
     description="A useful i2c package for Pi",

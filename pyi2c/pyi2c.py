@@ -29,6 +29,7 @@ class I2C:
 
     # Scan all I2C devices on the bus
     def scan(self):
+        addr_list = []
         print('    ', end='')
         for x in range(0xf+1):
             print('%02x ' % x, end='')
@@ -39,10 +40,12 @@ class I2C:
                 addr = (y << 4) + x
                 try:
                     self.read(addr)
+                    addr_list.append(addr)
                     print('%02x ' % addr, end='')
                 except:
                     print('-- ', end='')
             print()
+        return addr_list
 
     # Write data
     def write(self, addr, data):
