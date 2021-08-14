@@ -13,7 +13,6 @@ pip3 install pyi2c
 
 ## 2. API and example
 ### 2.1 `I2C(bus_n)`
-#### 2.1.1 declare
 ```
 from pyi2c import I2C
 
@@ -24,10 +23,10 @@ i2c = I2C(BUS_N)
 ADDR = 0x38 # Change this to yours
 ```
 
-#### 2.1.2 `scan()`
+#### 2.1.1 `scan()`
 Scan all I2C devices on the same BUS.
 
-**Return** list of integer (addres in byte)
+**Return** list of integer (address in byte)
 ```
 print( i2c.scan() )
 ```
@@ -46,7 +45,7 @@ print( i2c.scan() )
 [56, 90]
 ```
 
-#### 2.1.3 `write(ADDR, data)`
+#### 2.1.2 `write(ADDR, data)`
 **Return** nothing
 - `data` can be a byte or list of bytes.
 ```
@@ -87,7 +86,6 @@ read_data = i2c.writeread(ADDR, [WRITE0, WRITE1], byte_size)
 
 ### 2.2 `I2CDevice(bus_n, addr)`
 It is extension of I2C, but contains a I2C device's address. So it is not need to write address any more after declare.
-#### 2.2.1 Declare
 ```
 from pyi2c import I2CDevice
 
@@ -97,13 +95,13 @@ ADDR = 0x38
 aht10 = I2CDeivce(BUS_N, ADDR)
 ```
 
-#### 2.2.2 `write(data)`
+#### 2.2.1 `write(data)`
 As the same as `write(addr, data)` in I2C, but does not need address.
 
-#### 2.2.3 `read(byte_size=1)`
+#### 2.2.2 `read(byte_size=1)`
 As the same as `read(addr, byte_size)` in I2C, but does not need address.
 
-#### 2.2.4 `writeread(data, byte_size=1)`
+#### 2.2.3 `writeread(data, byte_size=1)`
 As the same as `writeread(addr, data, byte_size=1)` in I2C, but does not need address.
 
 
