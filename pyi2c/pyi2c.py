@@ -64,7 +64,7 @@ class I2C:
         if not type(data) == list:
             data = [ data ]
         write_msg = i2c_msg.write(addr, data)
-        read_msg = i2c_msg.read(addr, byte_size=1)
+        read_msg = i2c_msg.read(addr, byte_size)
         self._bus.i2c_rdwr(write_msg, read_msg)
         # List of i2c_msg should be converted to list of bytes
         read_data = list(read_msg)
