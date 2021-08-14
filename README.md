@@ -56,7 +56,7 @@ i2c.write(ADDR, [WRITE0, WRITE1])
 ```
 
 #### 2.1.3 `read(ADDR, byte_size=1)`
-**Return** byte, or list of bytes if `byte_size >= 0`
+**Return** integer (a byte), or list of integers (bytes) if `byte_size >= 0`
 - `byte_size` can be empty (default is 1)
 ```
 read_data = i2c.read(ADDR)
@@ -69,7 +69,7 @@ print( len(read_data) )
 ```
 
 #### 2.1.4 `writeread(ADDR, data, byte_size=1)`
-**Return** byte, or list of bytes if `byte_size >= 0`
+**Return** integer (a byte), or list of integer (bytes) if `byte_size >= 0`
 - `data` can be a byte or list of bytes.
 - `byte_size` can be empty (default is 1)
 ```
@@ -106,6 +106,7 @@ As the same as `writeread(addr, data, byte_size=1)` in I2C, but does not need ad
 
 
 ### 2.3 `getBit(byte, bin_n, bin_m=-1)`
+**Return** integer (a bit or bits)
 - `bin_n` should be `>= 0`
 - `bin_m` can be empty (default is -1 but will overwrote with `bin_n`)
 - `bin_n` or `bin_m` can be larger than byte's size
