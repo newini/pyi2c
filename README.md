@@ -24,7 +24,26 @@ i2c = I2C(BUS_N)
 ADDR = 0x38 # Change this to yours
 ```
 
-#### 2.1.2 `write(ADDR, data)`
+#### 2.1.2 `scan()`
+Scan all I2C devices on the same BUS.
+```
+i2c.scan()
+```
+
+```
+    00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
+00: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- 38 -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- 5a -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+80: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+```
+
+#### 2.1.3 `write(ADDR, data)`
 - `data` can be a byte or list of bytes.
 ```
 WRITE0 = 0x00 # Change this to yours
@@ -35,7 +54,7 @@ WRITE1 = 0x01 # Change this to yours
 i2c.write(ADDR, [WRITE0, WRITE1])
 ```
 
-#### 2.1.2 `read(ADDR, byte_size=1)`
+#### 2.1.3 `read(ADDR, byte_size=1)`
 - `byte_size` can be empty (default is 1)
 ```
 read_data = i2c.read(ADDR)
@@ -47,7 +66,7 @@ print( len(read_data) )
 # 2
 ```
 
-#### 2.1.3 `writeread(ADDR, data, byte_size=1)`
+#### 2.1.4 `writeread(ADDR, data, byte_size=1)`
 - `data` can be a byte or list of bytes.
 - `byte_size` can be empty (default is 1)
 ```

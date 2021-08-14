@@ -10,6 +10,10 @@ from pyi2c import I2C
 
 i2c = I2C(0)
 
+# Scan
+i2c.scan()
+
+# Use AHT10
 AHT10_ADDR = 0x38
 
 # Init

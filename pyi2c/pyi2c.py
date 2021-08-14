@@ -27,6 +27,23 @@ class I2C:
     def __init__(self, bus_n=0):
         self._bus = SMBus(bus_n)
 
+    # Scan all I2C devices on the bus
+    def scan(self):
+        print('    ', end='')
+        for x in range(0xf+1):
+            print('%02x ' % x, end='')
+        print()
+        for y in range(0x8+1):
+            print('%02x: ' % (y << 4), end='')
+            for x in range(0xf+1):
+                addr = (y << 4) + x
+                try:
+                    self.read(addr)
+                    print('%02x ' % addr, end='')
+                except:
+                    print('-- ', end='')
+            print()
+
     # Write data
     def write(self, addr, data):
         if not type(data) == list:
