@@ -25,8 +25,9 @@ ADDR = 0x38 # Change this to yours
 ```
 
 #### 2.1.2 `scan()`
-**Return** list of integer (addres in byte)
 Scan all I2C devices on the same BUS.
+
+**Return** list of integer (addres in byte)
 ```
 print( i2c.scan() )
 ```
