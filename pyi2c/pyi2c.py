@@ -22,7 +22,7 @@ from smbus2 import SMBus, i2c_msg
 # =================================================
 class I2C:
     """
-    A simple i2c interface by using smbus2, for Pi
+    A simple i2c interface by using smbus2, for Pi.
     """
     def __init__(self, bus_n=0):
         self._bus = SMBus(bus_n)
@@ -69,6 +69,26 @@ class I2C:
         # List of i2c_msg should be converted to list of bytes
         read_data = list(read_msg)
         return read_data[0] if len(read_data) == 1 else read_data
+
+
+# =================================================
+class I2CDevice:
+    """
+    A simple I2C device class which uses I2C.
+    Do not need to input address on its function.
+    """
+    def __init__(self, bus_n, addr):
+        self._i2c = I2C(bus_n)
+        self._addr = addr
+
+    def write(self, data):
+        self._i2c.write(self._addr, data)
+
+    def read(self, byte_size=1):
+        return self._i2c.read(self._addr, byte_size)
+
+    def writeread(self, data, byte_size=1):
+        return self._i2c.writeread(self._addr, data, byte_size)
 
 
 # =================================================
