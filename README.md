@@ -1,5 +1,8 @@
+![pyi2c logo](/docs/assets/images/pyi2c.png)
+
 # A useful i2c Python3 package for Pi
 It is a simple I2C interface based on smbus2.
+
 
 
 
