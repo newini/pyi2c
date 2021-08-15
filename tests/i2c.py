@@ -5,7 +5,13 @@
 Test for I2C
 """
 
-import time
+import logging, time
+
+logging.basicConfig(
+        format='%(asctime)s %(levelname)s %(message)s',
+        level=logging.DEBUG
+        )
+
 from pyi2c import I2C
 
 i2c = I2C(0)

@@ -15,6 +15,7 @@ __status__      = "Production"
 
 
 # =================================================
+import logging
 # Require smbus2 to communicate
 from smbus2 import SMBus, i2c_msg
 
@@ -25,26 +26,27 @@ class I2C:
     A simple i2c interface by using smbus2, for Pi.
     """
     def __init__(self, bus_n=0):
+        self._bus_n = bus_n
         self._bus = SMBus(bus_n)
 
     # Scan all I2C devices on the bus
     def scan(self):
         addr_list = []
-        print('    ', end='')
+        output_str = "    "
         for x in range(0xf+1):
-            print('%02x ' % x, end='')
-        print()
+            output_str += '%02x ' % x
+        logging.info(output_str)
         for y in range(0x8+1):
-            print('%02x: ' % (y << 4), end='')
+            output_str = '%02x: ' % (y << 4)
             for x in range(0xf+1):
                 addr = (y << 4) + x
                 try:
-                    self.read(addr)
+                    self._bus.i2c_rdwr( i2c_msg.read(addr, 1) )
                     addr_list.append(addr)
-                    print('%02x ' % addr, end='')
+                    output_str += '%02x ' % addr
                 except:
-                    print('-- ', end='')
-            print()
+                    output_str += '-- '
+            logging.info(output_str)
         return addr_list
 
     # Write data
@@ -52,12 +54,20 @@ class I2C:
         if not type(data) == list:
             data = [ data ]
         write_msg = i2c_msg.write(addr, data)
-        self._bus.i2c_rdwr(write_msg)
+        try:
+            self._bus.i2c_rdwr(write_msg)
+        except Exception as e:
+            logging.error('Cannot write: %s, bus: %d, addr: %s'
+                    % (e, self._bus_n, hex(addr)) )
 
     # Read bytes of data
     def read(self, addr, byte_size=1):
         read_msg = i2c_msg.read(addr, byte_size)
-        self._bus.i2c_rdwr(read_msg)
+        try:
+            self._bus.i2c_rdwr(read_msg)
+        except Exception as e:
+            logging.error('Cannot read: %s, bus: %d, addr: %s'
+                    % (e, self._bus_n, hex(addr)) )
         # List of i2c_msg should be converted to list of bytes
         read_data = list(read_msg)
         return read_data[0] if len(read_data) == 1 else read_data
@@ -68,7 +78,11 @@ class I2C:
             data = [ data ]
         write_msg = i2c_msg.write(addr, data)
         read_msg = i2c_msg.read(addr, byte_size)
-        self._bus.i2c_rdwr(write_msg, read_msg)
+        try:
+            self._bus.i2c_rdwr(write_msg, read_msg)
+        except Exception as e:
+            logging.error('Cannot writeread: %s, bus: %d, addr: %s'
+                    % (e, self._bus_n, hex(addr)) )
         # List of i2c_msg should be converted to list of bytes
         read_data = list(read_msg)
         return read_data[0] if len(read_data) == 1 else read_data
