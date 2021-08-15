@@ -26,7 +26,25 @@ i2c = I2C(BUS_N)
 ADDR = 0x38 # Change this to yours
 ```
 
-#### 2.1.1 `scan()`
+#### 2.1.1 `status_code`
+**Return**
+- `{StatusCode.success: 0}`
+- `{StatusCode.ready: 1}`
+- `{StatusCode.fail: 9}`
+```
+print( i2c.status_code )
+# => {StatusCode: 1}
+```
+To get the value, use `.value`
+```
+print( i2c.status_code.value )
+# => 1
+
+if i2c.status_code.value == 1:
+    print('ready')
+```
+
+#### 2.1.2 `scan()`
 Scan all I2C devices on the same BUS.
 
 **Return** list of integer (address in byte)
@@ -48,7 +66,7 @@ print( i2c.scan() )
 [56, 90]
 ```
 
-#### 2.1.2 `write(ADDR, data)`
+#### 2.1.3 `write(ADDR, data)`
 **Return** nothing
 - `data` can be a byte or list of bytes.
 ```
@@ -60,7 +78,7 @@ WRITE1 = 0x01 # Change this to yours
 i2c.write(ADDR, [WRITE0, WRITE1])
 ```
 
-#### 2.1.3 `read(ADDR, byte_size=1)`
+#### 2.1.4 `read(ADDR, byte_size=1)`
 **Return** integer (a byte), or list of integers (bytes) if `byte_size >= 0`
 - `byte_size` can be empty (default is 1)
 ```
@@ -73,7 +91,7 @@ print( len(read_data) )
 # 2
 ```
 
-#### 2.1.4 `writeread(ADDR, data, byte_size=1)`
+#### 2.1.5 `writeread(ADDR, data, byte_size=1)`
 **Return** integer (a byte), or list of integer (bytes) if `byte_size >= 0`
 - `data` can be a byte or list of bytes.
 - `byte_size` can be empty (default is 1)
@@ -98,13 +116,16 @@ ADDR = 0x38
 aht10 = I2CDeivce(BUS_N, ADDR)
 ```
 
-#### 2.2.1 `write(data)`
+#### 2.2.1 `status_code`
+As the same as `status_code` in I2C.
+
+#### 2.2.2 `write(data)`
 As the same as `write(addr, data)` in I2C, but does not need address.
 
-#### 2.2.2 `read(byte_size=1)`
+#### 2.2.3 `read(byte_size=1)`
 As the same as `read(addr, byte_size)` in I2C, but does not need address.
 
-#### 2.2.3 `writeread(data, byte_size=1)`
+#### 2.2.4 `writeread(data, byte_size=1)`
 As the same as `writeread(addr, data, byte_size=1)` in I2C, but does not need address.
 
 

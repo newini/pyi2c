@@ -15,9 +15,19 @@ __status__      = "Production"
 
 
 # =================================================
-import logging
+import enum, logging
 # Require smbus2 to communicate
 from smbus2 import SMBus, i2c_msg
+
+
+# =================================================
+class StatusCode(enum.Enum):
+    """
+    Status code
+    """
+    success = 0
+    ready   = 1
+    fail    = 9
 
 
 # =================================================
@@ -28,6 +38,12 @@ class I2C:
     def __init__(self, bus_n=0):
         self._bus_n = bus_n
         self._bus = SMBus(bus_n)
+        self._status_code = StatusCode.ready
+
+    # Status code can be accessed
+    @property
+    def status_code(self):
+        return self._status_code
 
     # Scan all I2C devices on the bus
     def scan(self):
@@ -47,6 +63,7 @@ class I2C:
                 except:
                     output_str += '-- '
             logging.info(output_str)
+        self._status_code = StatusCode.success
         return addr_list
 
     # Write data
@@ -56,7 +73,9 @@ class I2C:
         write_msg = i2c_msg.write(addr, data)
         try:
             self._bus.i2c_rdwr(write_msg)
+            self._status_code = StatusCode.success
         except Exception as e:
+            self._status_code = StatusCode.fail
             logging.error('Cannot write: %s, bus: %d, addr: %s'
                     % (e, self._bus_n, hex(addr)) )
 
@@ -65,7 +84,9 @@ class I2C:
         read_msg = i2c_msg.read(addr, byte_size)
         try:
             self._bus.i2c_rdwr(read_msg)
+            self._status_code = StatusCode.success
         except Exception as e:
+            self._status_code = StatusCode.fail
             logging.error('Cannot read: %s, bus: %d, addr: %s'
                     % (e, self._bus_n, hex(addr)) )
         # List of i2c_msg should be converted to list of bytes
@@ -80,7 +101,9 @@ class I2C:
         read_msg = i2c_msg.read(addr, byte_size)
         try:
             self._bus.i2c_rdwr(write_msg, read_msg)
+            self._status_code = StatusCode.success
         except Exception as e:
+            self._status_code = StatusCode.fail
             logging.error('Cannot writeread: %s, bus: %d, addr: %s'
                     % (e, self._bus_n, hex(addr)) )
         # List of i2c_msg should be converted to list of bytes
@@ -97,6 +120,10 @@ class I2CDevice:
     def __init__(self, bus_n, addr):
         self._i2c = I2C(bus_n)
         self._addr = addr
+
+    @property
+    def status_code(self):
+        return self._i2c.status_code
 
     def write(self, data):
         self._i2c.write(self._addr, data)
