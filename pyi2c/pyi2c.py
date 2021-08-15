@@ -76,8 +76,8 @@ class I2C:
             self._status_code = StatusCode.success
         except Exception as e:
             self._status_code = StatusCode.fail
-            logging.error('Cannot write: %s, bus: %d, addr: %s'
-                    % (e, self._bus_n, hex(addr)) )
+            logging.error('Cannot write on bus: %d, addr: %s. %s'
+                    % (self._bus_n, hex(addr), e) )
 
     # Read bytes of data
     def read(self, addr, byte_size=1):
@@ -87,8 +87,8 @@ class I2C:
             self._status_code = StatusCode.success
         except Exception as e:
             self._status_code = StatusCode.fail
-            logging.error('Cannot read: %s, bus: %d, addr: %s'
-                    % (e, self._bus_n, hex(addr)) )
+            logging.error('Cannot read on bus: %d, addr: %s. %s'
+                    % (self._bus_n, hex(addr), e) )
         # List of i2c_msg should be converted to list of bytes
         read_data = list(read_msg)
         return read_data[0] if len(read_data) == 1 else read_data
@@ -104,8 +104,8 @@ class I2C:
             self._status_code = StatusCode.success
         except Exception as e:
             self._status_code = StatusCode.fail
-            logging.error('Cannot writeread: %s, bus: %d, addr: %s'
-                    % (e, self._bus_n, hex(addr)) )
+            logging.error('Cannot writeread on bus: %d, addr: %s. %s'
+                    % (self._bus_n, hex(addr), e) )
         # List of i2c_msg should be converted to list of bytes
         read_data = list(read_msg)
         return read_data[0] if len(read_data) == 1 else read_data
